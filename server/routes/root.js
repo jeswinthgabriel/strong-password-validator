@@ -6,7 +6,7 @@ router.post('/password',async (req,res)=>{
     const { password, steps } = req.body
 
     // Confirm data
-    if (!password || !steps) {
+    if (!password) {
         return res.status(400).json({ message: 'All fields are required' })
     }
 

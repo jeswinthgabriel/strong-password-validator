@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import passwordValidator from './utilities/passwordValidator';
 import axios from 'axios'
@@ -10,7 +10,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 function App() {
   const [password,setPassword] = useState()
-  const [steps,setSteps] = useState()
+  const [steps,setSteps] = useState(0)
   const [savedMessage,setSavedMessage] = useState()
   const handleSubmit= (e)=>{
     e.preventDefault()
@@ -20,15 +20,17 @@ function App() {
       password,
       steps:stepsResult
     })
-    .then(function (response) {
+    .then(response=>{
       setSavedMessage(response?.data?.message)
       console.log(response);
     })
-    .catch(function (error) {
-      setSavedMessage(error.message)
+    .catch( (error)=> {
+      setSavedMessage(error.message.toString())
       console.log(error.message)
     });
+    
   }
+
   return (
     
     <Container >
@@ -43,7 +45,7 @@ function App() {
       
       <Form onSubmit={handleSubmit}>
       <InputGroup className="mb-3">
-        <Form.Control  value={password} onChange={(e)=>setPassword(e.target.value)}
+        <Form.Control required value={password} onChange={(e)=>setPassword(e.target.value)}
           placeholder="Enter input Password"
         />
         <Button variant="outline-secondary" type="submit">
@@ -55,7 +57,7 @@ function App() {
       <Row>
       <Col className='mt-5'>
       <div>Required Steps = {steps}</div>
-      {savedMessage && <div>Message Saved</div>}</Col>
+      {savedMessage && <div>{savedMessage}</div>}</Col>
       
     </Row>
     </Row>

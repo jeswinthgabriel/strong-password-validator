@@ -7,7 +7,7 @@ const passwordValidatorSchema =new mongoose.Schema({
     required: true
 },
 steps: {
-    type: String, 
+    type: Number, 
     required: true
 },
 
